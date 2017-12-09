@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     tools:context="pt.isec.gps1718.g34.healthassistant.PrescriptionsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Prescriptions." />
+        android:id="@+id/listViewPrescriptions"
+        android:padding="5dp"
+        />
 
 </FrameLayout>

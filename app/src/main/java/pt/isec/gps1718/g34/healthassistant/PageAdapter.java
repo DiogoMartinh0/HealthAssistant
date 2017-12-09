@@ -3,6 +3,7 @@ package pt.isec.gps1718.g34.healthassistant;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.ListView;
 
 
 public class PageAdapter extends FragmentStatePagerAdapter {

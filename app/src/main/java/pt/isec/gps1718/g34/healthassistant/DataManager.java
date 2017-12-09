@@ -30,6 +30,18 @@ public class DataManager{
         listaAppointments = new ArrayList<>();
     }
 
+
+
+    public ArrayList<Prescription> GetPrescritionList(){
+        return getPrescriptionsFromFile();
+    }
+
+    public ArrayList<Appointment> GetAppointmentList(){
+        return getAppointmentsFromFile();
+    }
+
+
+
     public void AddPrescription(Prescription newPrescription){
         listaPrescriptions.add(newPrescription);
     }
@@ -60,7 +72,10 @@ public class DataManager{
         }
     }
 
-    public ArrayList<Prescription> getPrescriptionsFromFile(){
+    private ArrayList<Prescription> getPrescriptionsFromFile(){
+        if (!listaPrescriptions.isEmpty())
+            return listaPrescriptions;
+
         listaPrescriptions.clear();
 
         FileInputStream fi = null;
@@ -99,7 +114,10 @@ public class DataManager{
         return listaPrescriptions;
     }
 
-    public ArrayList<Appointment> getAppointmentsFromFile(){
+    private ArrayList<Appointment> getAppointmentsFromFile(){
+        if (!listaAppointments.isEmpty())
+            return listaAppointments;
+
         listaAppointments.clear();
 
         FileInputStream fi = null;

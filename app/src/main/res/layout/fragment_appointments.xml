@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     tools:context="pt.isec.gps1718.g34.healthassistant.AppointmentsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30sp"
-        android:text="Aqui vão estar os appointments" />
-
+        android:id="@+id/listViewAppointments"
+        android:padding="5dp"
+        />
 </FrameLayout>

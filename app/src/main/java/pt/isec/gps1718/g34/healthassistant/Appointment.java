@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-enum NotificationIntervalAppointment { T10, T15, T30, T60, T120 } // Minutos
-
 public class Appointment extends Event implements Serializable {
     private String Nome;
 
@@ -17,8 +15,9 @@ public class Appointment extends Event implements Serializable {
     private String Medico;
     private String InformacaoAdicional;
 
-    public Appointment(int ID, String Nome, Date dInicio, NotificationIntervalAppointment tAvisoAntecedencia,
-                        String Localizacao, String Medico, String InformacaoAdicional){
+    public Appointment(int ID, String Nome,
+                        String Localizacao, String Medico, String InformacaoAdicional,
+                        Date dInicio, NotificationIntervalAppointment tAvisoAntecedencia){
 
         this.Nome = Nome;
         this.dInicio = dInicio;
