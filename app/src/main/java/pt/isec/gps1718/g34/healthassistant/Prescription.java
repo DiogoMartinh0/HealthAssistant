@@ -1,11 +1,9 @@
 package pt.isec.gps1718.g34.healthassistant;
 
+import java.io.Serializable;
 import java.util.Date;
 
-
-enum NotificationIntervalPrescription { T10, T15, T30, T60, T120 } // Minutos
-
-public class Prescription extends Event {
+public class Prescription extends Event implements Serializable {
 
     private String Nome;
     private String Dosagem;
@@ -27,8 +25,9 @@ public class Prescription extends Event {
         this.isNotificationActive = isNotificationActive;
         this.dInicio = dInicio;
         this.tAvisoAntecedencia = tAvisoAntecedencia;
-
     }
+
+    public Prescription() {}
 
     public String getNome() {
         return Nome;
