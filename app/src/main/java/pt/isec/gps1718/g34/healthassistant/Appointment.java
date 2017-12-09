@@ -1,10 +1,12 @@
 package pt.isec.gps1718.g34.healthassistant;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 enum NotificationIntervalAppointment { T10, T15, T30, T60, T120 } // Minutos
-public class Appointment {
+
+public class Appointment extends Event implements Serializable {
     private String Nome;
 
     private Date dInicio;

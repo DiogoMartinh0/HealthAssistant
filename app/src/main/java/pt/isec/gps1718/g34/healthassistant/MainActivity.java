@@ -8,7 +8,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements PrescriptionsFragment.OnFragmentInteractionListener, AppointmentsFragment.OnFragmentInteractionListener {
+
+    private DataManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +32,49 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+            public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
 
+        dm = new DataManager(this);
+        dm.getPrescriptionsFromFile();
+        dm.getAppointmentsFromFile();
+
+        dm.AddPrescription(new Prescription(
+                0,
+                "Hey",
+                "600mg",
+                true,
+                true,
+                new Date(),
+                NotificationIntervalPrescription.T10
+        ));
+
+        dm.AddAppointment(new Appointment(
+                1,
+                "Consulta qq cena",
+                new Date(),
+                NotificationIntervalAppointment.T10,
+                "HUC",
+                "Tiago Silva",
+                "Levar exames realizados em Julho de 2017"
+        ));
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(Uri uri) { }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        dm.savePrescritionsToFile();
+        dm.saveAppointmentsToFile();
     }
 }
