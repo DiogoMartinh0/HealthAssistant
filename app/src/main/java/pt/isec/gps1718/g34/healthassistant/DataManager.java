@@ -20,17 +20,15 @@ public class DataManager{
     private String PRESCRIPTIONS_FILENAME = "PrescriptionsFile";
     private String APPOINTMENTS_FILENAME = "AppointmentsFile";
 
-    ArrayList<Prescription> listaPrescriptions;
-    ArrayList<Appointment> listaAppointments;
+    ArrayList<Prescription> listPrescriptions;
+    ArrayList<Appointment> listAppointments;
 
 
     public DataManager(Context ctx){
         this.context = ctx;
-        listaPrescriptions = new ArrayList<>();
-        listaAppointments = new ArrayList<>();
+        listPrescriptions = new ArrayList<>();
+        listAppointments = new ArrayList<>();
     }
-
-
 
     public ArrayList<Prescription> GetPrescritionList(){
         return getPrescriptionsFromFile();
@@ -40,19 +38,17 @@ public class DataManager{
         return getAppointmentsFromFile();
     }
 
-
-
     public void AddPrescription(Prescription newPrescription){
-        listaPrescriptions.add(newPrescription);
+        listPrescriptions.add(newPrescription);
     }
 
     public void AddAppointment(Appointment newAppointment){
-        listaAppointments.add(newAppointment);
+        listAppointments.add(newAppointment);
     }
 
     public void RemovePrescription(final Prescription targetPrescription){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            listaPrescriptions.removeIf(new Predicate<Prescription>() {
+            listPrescriptions.removeIf(new Predicate<Prescription>() {
                 @Override
                 public boolean test(Prescription prescription) {
                     return prescription.getID() == targetPrescription.getID();
@@ -63,7 +59,7 @@ public class DataManager{
 
     public void RemoveAppointment(final Appointment targetAppointment){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            listaAppointments.removeIf(new Predicate<Appointment>() {
+            listAppointments.removeIf(new Predicate<Appointment>() {
                 @Override
                 public boolean test(Appointment appointment) {
                     return appointment.getID() == targetAppointment.getID();
@@ -73,98 +69,87 @@ public class DataManager{
     }
 
     private ArrayList<Prescription> getPrescriptionsFromFile(){
-        if (!listaPrescriptions.isEmpty())
-            return listaPrescriptions;
+        if (!listPrescriptions.isEmpty()){
+            return listPrescriptions;
+        }
 
-        listaPrescriptions.clear();
+        listPrescriptions.clear();
 
-        FileInputStream fi = null;
+        FileInputStream fileInputStream = null;
         try {
-            fi = context.openFileInput(PRESCRIPTIONS_FILENAME);
+            fileInputStream = context.openFileInput(PRESCRIPTIONS_FILENAME);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        ObjectInputStream oi = null;
+        ObjectInputStream objInputStream = null;
         try {
-            oi = new ObjectInputStream(fi);
+            objInputStream = new ObjectInputStream(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Ler objectos
-        try
-        {
-            for (;;)
-            {
-                listaPrescriptions.add((Prescription)oi.readObject());
+        try{
+            for (;;) { 
+                listPrescriptions.add((Prescription)objInputStream.readObject());
             }
-        }
-        catch (EOFException exc)
-        {
+        } catch (EOFException exc) {
             // não há mais objectos para ler
-        }
-        catch (IOException exc)
-        {
+        } catch (IOException exc) {
             exc.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        return listaPrescriptions;
+        return listPrescriptions;
     }
 
     private ArrayList<Appointment> getAppointmentsFromFile(){
-        if (!listaAppointments.isEmpty())
-            return listaAppointments;
+        if (!listAppointments.isEmpty()){
+            return listAppointments;
+        }
+        
+        listAppointments.clear();
 
-        listaAppointments.clear();
-
-        FileInputStream fi = null;
+        FileInputStream fileInputStream = null;
         try {
-            fi = context.openFileInput(APPOINTMENTS_FILENAME);
+            fileInputStream = context.openFileInput(APPOINTMENTS_FILENAME);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        ObjectInputStream oi = null;
+        ObjectInputStream objInputStream = null;
         try {
-            oi = new ObjectInputStream(fi);
+            objInputStream = new ObjectInputStream(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Ler objectos
-        try
-        {
-            for (;;)
-            {
-                listaAppointments.add((Appointment) oi.readObject());
+        try{
+            for (;;) { 
+                listPrescriptions.add((Prescription)objInputStream.readObject());
             }
-        }
-        catch (EOFException exc)
-        {
+        } catch (EOFException exc) {
             // não há mais objectos para ler
-        }
-        catch (IOException exc)
-        {
-            exc.printStackTrace(); // for example
+        } catch (IOException exc) {
+            exc.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        return listaAppointments;
+        return listAppointments;
     }
 
     public void savePrescritionsToFile(){
-        String string = "Hello world!";
         FileOutputStream streamFicheiro;
 
         try {
             streamFicheiro = context.openFileOutput(PRESCRIPTIONS_FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(streamFicheiro);
 
-            for (Prescription t : listaPrescriptions)
+            for (Prescription t : listPrescriptions)
                 oos.writeObject(t);
 
             streamFicheiro.close();
@@ -174,14 +159,13 @@ public class DataManager{
     }
 
     public void saveAppointmentsToFile(){
-        String string = "Hello world!";
         FileOutputStream streamFicheiro;
 
         try {
             streamFicheiro = context.openFileOutput(APPOINTMENTS_FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(streamFicheiro);
 
-            for (Appointment t : listaAppointments)
+            for (Appointment t : listAppointments)
                 oos.writeObject(t);
 
             streamFicheiro.close();
