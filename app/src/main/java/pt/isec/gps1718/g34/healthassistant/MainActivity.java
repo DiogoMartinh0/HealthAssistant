@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
 
         dm = new DataManager(this);
         myFab = findViewById(R.id.fab_AdicionarEvento);
-        setUpLists();
+        //setUpLists();
 
 
         tabLayout = findViewById(R.id.tabLayout);
