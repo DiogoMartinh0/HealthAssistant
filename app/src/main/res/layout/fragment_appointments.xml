@@ -7,7 +7,18 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listViewAppointments"
+        android:id="@+id/viewAppointments_listView"
         android:padding="5dp"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:textSize="18sp"
+        android:text="@string/there_are_no_items_on_the_appointment_list"
+        android:visibility="invisible"
+        android:id="@+id/viewAppointments_tv_NoAppointments"
+        />
+
 </FrameLayout>

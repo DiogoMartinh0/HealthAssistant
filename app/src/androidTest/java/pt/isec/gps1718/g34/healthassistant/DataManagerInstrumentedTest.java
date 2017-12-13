@@ -2,8 +2,10 @@ package pt.isec.gps1718.g34.healthassistant;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +13,7 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+@RunWith(AndroidJUnit4.class)
 public class DataManagerInstrumentedTest {
     @Test
     public void getPrescritionList() throws Exception {
@@ -71,7 +74,7 @@ public class DataManagerInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         DataManager dm = new DataManager(appContext);
 
-        Prescription toAdd =  new Prescription(
+        Prescription toAdd = new Prescription(
                 0,
                 "Ibuprofeno",
                 "600mg",

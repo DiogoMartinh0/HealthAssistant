@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -22,13 +23,13 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
     private TabLayout tabLayout;
     private FloatingActionButton myFab;
 
-    View.OnClickListener onClickListener_AddPrescription = new View.OnClickListener() {
+    View.OnClickListener OnClickListener_FAB = new View.OnClickListener() {
         public void onClick(View v) {
-            Log.i("HealthAssistant", "Heyyyyyy, hello!!!!!!!");
-            if (tabLayout.getSelectedTabPosition() == 0){
-                Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_LONG);
-            }else if (tabLayout.getSelectedTabPosition() == 1){
-                Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_LONG);
+            Log.i("HealthAssistant", "Click botão flutuante");
+            if (tabLayout.getSelectedTabPosition() == 0) {
+                Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_SHORT).show();
+            } else if (tabLayout.getSelectedTabPosition() == 1) {
+                Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
         final ViewPager viewPager = findViewById(R.id.viewPager);
         final PagerAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -60,18 +60,31 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
                 viewPager.setCurrentItem(tab.getPosition());
 
                 if (tab.getPosition() == 0){
-                    // Prescriptions
+                    ListView lvPrescription = findViewById(R.id.viewPrescriptions_listView);
+                    TextView tvNoPrescription = findViewById(R.id.viewPrescriptions_tv_NoPrescriptions);
+                    lvPrescription.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
 
-                    if (!dm.GetPrescritionList().isEmpty()){
-                        ListView lvPrescription = (ListView) findViewById(R.id.listViewPrescriptions);
-                        lvPrescription.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
+                    if (dm.GetPrescritionList().size() == 0){
+                        lvPrescription.setVisibility(View.INVISIBLE); // Esconder a lista
+                        tvNoPrescription.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+                    }else{
+                        tvNoPrescription.setVisibility(View.INVISIBLE); // Esconder texto da lista vazia
+                        lvPrescription.setVisibility(View.VISIBLE); // Mostrar a lista
+
                     }
                 }else if (tab.getPosition() == 1){
-                    // Appointments
+                    ListView lvAppointments = findViewById(R.id.viewAppointments_listView);
+                    TextView tvNoAppointment = findViewById(R.id.viewAppointments_tv_NoAppointments);
+                    lvAppointments.setAdapter(new AppointmentAdapter(getApplicationContext(), dm.GetAppointmentList()));
 
-                    if (!dm.GetAppointmentList().isEmpty()){
-                        ListView lvAppointments = (ListView) findViewById(R.id.listViewAppointments);
-                        lvAppointments .setAdapter(new AppointmentAdapter(getApplicationContext(), dm.GetAppointmentList()));
+                    if (dm.GetAppointmentList().size() == 0){
+                        //viewAppointments_tv_NoAppointments
+                        lvAppointments.setVisibility(View.INVISIBLE); // Esconder a lista
+                        tvNoAppointment.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+                    }else {
+                        tvNoAppointment.setVisibility(View.INVISIBLE); // Esconder texto da lista vazia
+                        lvAppointments.setVisibility(View.VISIBLE); // Mostrar a lista
+
                     }
                 }
             }
@@ -83,23 +96,17 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.i("HealthAssistant", "Clock botão flutuante");
-                if (tabLayout.getSelectedTabPosition() == 0){
-                    Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_LONG);
-                }else if (tabLayout.getSelectedTabPosition() == 1){
-                    Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_LONG);
-                }
-            }
-        });
+        myFab.setOnClickListener(OnClickListener_FAB);
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">HealthAssistant</string>
+    <string name="there_are_no_items_on_the_prescription_list">There are no items on the prescription list. Click on the + button bellow to add one!</string>
+    <string name="there_are_no_items_on_the_appointment_list">There are no items on the appointment list. Click on the + button bellow to add one!</string>
+
 </resources>
