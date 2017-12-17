@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Create.CreatePrescription">
+        </activity>
+
+        <activity android:name=".Create.CreateAppointment">
+        </activity>
+
+        <activity android:name=".Edit.EditPrescription">
+        </activity>
+
+        <activity android:name=".Edit.EditAppointment">
+        </activity>
     </application>
 
 </manifest>

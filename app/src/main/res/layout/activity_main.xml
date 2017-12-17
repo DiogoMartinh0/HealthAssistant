@@ -7,6 +7,21 @@
     android:orientation="vertical"
     tools:context="pt.isec.gps1718.g34.healthassistant.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Health Assistant"
+            android:textColor="#FFFFFF"
+            style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,12 +38,21 @@
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-            <android.support.v4.view.ViewPager
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/viewPager"
+                android:id="@+id/listView_Global"
                 app:layout_anchor="@id/tabLayout"
                 app:layout_anchorGravity="bottom"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:textSize="18sp"
+                android:visibility="invisible"
+                android:id="@+id/textView_Global"
                 />
         </LinearLayout>
 

@@ -1,38 +1,37 @@
 package pt.isec.gps1718.g34.healthassistant;
 
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements PrescriptionsFragment.OnFragmentInteractionListener, AppointmentsFragment.OnFragmentInteractionListener {
+import pt.isec.gps1718.g34.healthassistant.Adapter.AppointmentAdapter;
+import pt.isec.gps1718.g34.healthassistant.Adapter.PrescriptionAdapter;
+import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
+import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalAppointment;
+import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalPrescription;
+import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
+import pt.isec.gps1718.g34.healthassistant.Create.CreatePrescription;
+import pt.isec.gps1718.g34.healthassistant.Edit.EditAppointment;
+import pt.isec.gps1718.g34.healthassistant.Edit.EditPrescription;
+
+public class MainActivity extends AppCompatActivity{
 
     private DataManager dm;
     private TabLayout tabLayout;
     private FloatingActionButton myFab;
-
-    View.OnClickListener OnClickListener_FAB = new View.OnClickListener() {
-        public void onClick(View v) {
-            Log.i("HealthAssistant", "Click botão flutuante");
-            if (tabLayout.getSelectedTabPosition() == 0) {
-                Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_SHORT).show();
-            } else if (tabLayout.getSelectedTabPosition() == 1) {
-                Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
 
         dm = new DataManager(this);
         myFab = findViewById(R.id.fab_AdicionarEvento);
-        //setUpLists();
+        setUpLists();
 
 
         tabLayout = findViewById(R.id.tabLayout);
@@ -49,42 +48,51 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
         tabLayout.addTab(tabLayout.newTab().setText("Appointments"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = findViewById(R.id.viewPager);
-        final PagerAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        ListView listView_Global = findViewById(R.id.listView_Global);
+        listView_Global.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long l) {
+                if (tabLayout.getSelectedTabPosition() == 0) {
+                    Intent i1 = new Intent(MainActivity.this, EditPrescription.class);
+                    i1.putExtra("IDPrescription", dm.GetPrescritionList().get(posicao).getID());
+                    startActivity(i1);
+                } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    Intent i1 = new Intent(MainActivity.this, EditAppointment.class);
+                    i1.putExtra("IDAppointment", dm.GetAppointmentList().get(posicao).getID());
+                    startActivity(i1);
+                }
+
+                //Snackbar.make(view, "On item click", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                ListView listView_Global = findViewById(R.id.listView_Global);
+                TextView textView_Global = findViewById(R.id.textView_Global);
+
+                listView_Global.setVisibility(View.INVISIBLE); // Esconder a lista
+                textView_Global.setVisibility(View.INVISIBLE); // Esconder texto de lista vazia
 
                 if (tab.getPosition() == 0){
-                    ListView lvPrescription = findViewById(R.id.viewPrescriptions_listView);
-                    TextView tvNoPrescription = findViewById(R.id.viewPrescriptions_tv_NoPrescriptions);
-                    lvPrescription.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
+                    listView_Global.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
 
                     if (dm.GetPrescritionList().size() == 0){
-                        lvPrescription.setVisibility(View.INVISIBLE); // Esconder a lista
-                        tvNoPrescription.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+                        textView_Global.setText(R.string.there_are_no_items_on_the_prescription_list);
+                        textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
                     }else{
-                        tvNoPrescription.setVisibility(View.INVISIBLE); // Esconder texto da lista vazia
-                        lvPrescription.setVisibility(View.VISIBLE); // Mostrar a lista
-
+                        listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
                     }
                 }else if (tab.getPosition() == 1){
-                    ListView lvAppointments = findViewById(R.id.viewAppointments_listView);
-                    TextView tvNoAppointment = findViewById(R.id.viewAppointments_tv_NoAppointments);
-                    lvAppointments.setAdapter(new AppointmentAdapter(getApplicationContext(), dm.GetAppointmentList()));
+                    listView_Global.setAdapter(new AppointmentAdapter(getApplicationContext(), dm.GetAppointmentList()));
 
                     if (dm.GetAppointmentList().size() == 0){
-                        //viewAppointments_tv_NoAppointments
-                        lvAppointments.setVisibility(View.INVISIBLE); // Esconder a lista
-                        tvNoAppointment.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+                        textView_Global.setText(R.string.there_are_no_items_on_the_appointment_list);
+                        textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
                     }else {
-                        tvNoAppointment.setVisibility(View.INVISIBLE); // Esconder texto da lista vazia
-                        lvAppointments.setVisibility(View.VISIBLE); // Mostrar a lista
-
+                        listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
                     }
                 }
             }
@@ -96,7 +104,20 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        myFab.setOnClickListener(OnClickListener_FAB);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("HealthAssistant", "Click botão flutuante");
+                if (tabLayout.getSelectedTabPosition() == 0) {
+                    Intent i1 = new Intent(MainActivity.this, CreatePrescription.class);
+                    startActivity(i1);
+                    //Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_SHORT).show();
+                } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        startUpLists();
     }
 
     @Override
@@ -106,12 +127,9 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) { }
 
     @Override
     protected void onPause() {
@@ -132,9 +150,23 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
     @Override
     protected void onResume() {
         super.onResume();
-        /*
-        ListView lvPrescription = (ListView) findViewById(R.id.listViewPrescriptions);
-        lvPrescription.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));*/
+    }
+
+    private void startUpLists(){
+        ListView listView_Global = findViewById(R.id.listView_Global);
+        TextView textView_Global = findViewById(R.id.textView_Global);
+
+        listView_Global.setVisibility(View.INVISIBLE); // Esconder a lista
+        textView_Global.setVisibility(View.INVISIBLE); // Esconder texto de lista vazia
+
+        listView_Global.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
+
+        if (dm.GetPrescritionList().size() == 0){
+            textView_Global.setText("Sem items0");
+            textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+        }else{
+            listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
+        }
     }
 
     private void setUpLists(){
@@ -149,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements PrescriptionsFrag
         ));
 
         dm.AddAppointment(new Appointment(
-                1,
+                0,
                 "Consulta Ortopedia",
                 "HUC",
                 "Tiago Silva",

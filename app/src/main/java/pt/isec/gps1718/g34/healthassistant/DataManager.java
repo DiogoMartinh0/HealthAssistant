@@ -13,11 +13,16 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
+import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
+
 public class DataManager{
 
     private Context context;
     private String PRESCRIPTIONS_FILENAME = "PrescriptionsFile";
     private String APPOINTMENTS_FILENAME = "AppointmentsFile";
+    private Integer contadorPrescriptions = 0;
+    private Integer contadorAppointments = 0;
 
     ArrayList<Prescription> listPrescriptions = null;
     ArrayList<Appointment> listAppointments = null;
@@ -29,14 +34,17 @@ public class DataManager{
         listAppointments = new ArrayList<>();
     }
 
-
+    private int getIDForNewEvent(){
+        return  contadorPrescriptions + contadorAppointments + 1;
+    }
 
     public ArrayList<Prescription> GetPrescritionList(){
         if (listPrescriptions != null) {
             return listPrescriptions;
         } else {
-            listPrescriptions = new ArrayList<>();
-            return getPrescriptionsFromFile();
+            listPrescriptions = getPrescriptionsFromFile();
+            contadorPrescriptions = listPrescriptions.size();
+            return listPrescriptions;
         }
     }
 
@@ -44,18 +52,21 @@ public class DataManager{
         if (listAppointments != null) {
             return listAppointments;
         } else{
-            listAppointments = new ArrayList<>();
-            return getAppointmentsFromFile();
+            listAppointments = getAppointmentsFromFile();
+            contadorPrescriptions = listAppointments.size();
+            return listAppointments;
         }
     }
 
-
-
     public void AddPrescription(Prescription newPrescription){
+        newPrescription.setID(getIDForNewEvent());
+        contadorPrescriptions++;
         listPrescriptions.add(newPrescription);
     }
 
     public void AddAppointment(Appointment newAppointment){
+        newAppointment.setID(getIDForNewEvent());
+        contadorAppointments++;
         listAppointments.add(newAppointment);
     }
 

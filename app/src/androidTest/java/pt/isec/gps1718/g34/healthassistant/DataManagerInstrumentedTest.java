@@ -10,6 +10,11 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.Date;
 
+import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
+import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalAppointment;
+import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalPrescription;
+import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
