@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -49,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:id="@+id/addPrescription_isAlarmChecked"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="Alarm"
             />
 
@@ -59,10 +58,8 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/addPrescription_isNotificationChecked"
             android:text="Notification"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
-
-
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -89,7 +86,7 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/addPrescription_dropDownList_TimeInterval"
             android:background="@android:drawable/btn_dropdown"
-            ></android.support.v7.widget.AppCompatSpinner>
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

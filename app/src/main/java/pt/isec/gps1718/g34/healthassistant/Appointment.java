@@ -3,6 +3,9 @@ package pt.isec.gps1718.g34.healthassistant;
 import java.io.Serializable;
 import java.util.Date;
 
+import pt.isec.gps1718.g34.healthassistant.Base.Event;
+import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalAppointment;
+
 
 public class Appointment extends Event implements Serializable {
     private String Nome;

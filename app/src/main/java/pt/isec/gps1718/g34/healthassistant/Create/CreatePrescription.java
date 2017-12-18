@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import pt.isec.gps1718.g34.healthassistant.R;
 
@@ -37,15 +38,30 @@ public class CreatePrescription extends AppCompatActivity {
             public void onClick(View view) {
                 EditText editText_Nome = findViewById(R.id.addPrescription_editText_Nome);
 
-                Snackbar.make(view, "You pressed ok", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view,
+                        "You pressed ok", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null)
+                        .show();
                 // chamar data manager -> adicionar à lista
                 // processar alarmes
             }
         });
 
 
+        findViewById(R.id.addPrescription_textView_DateTimePicker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view,
+                        "Ao clicar aqui vou abrir o DateTimePicker (falta implementar a biblioteca)",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("null", null)
+                        .show();
+            }
+        });
+
+
         //get the spinner from the xml.
-        Spinner dropdown = findViewById(R.id.addPrescription_dropDownList_TimeInterval);
+        //Spinner dropdown = findViewById(R.id.addPrescription_dropDownList_TimeInterval);
         //create a list of items for the spinner.
         //String[] items = new String[]{"1", "2", "three"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
@@ -55,11 +71,11 @@ public class CreatePrescription extends AppCompatActivity {
         //dropdown.setAdapter(adapter);
 
 
-        Spinner dynamicSpinner = (Spinner) findViewById(R.id.addPrescription_dropDownList_TimeInterval);
+        Spinner dynamicSpinner = findViewById(R.id.addPrescription_dropDownList_TimeInterval);
 
-        String[] items = new String[] { "Chai Latte", "Green Tea", "Black Tea" };
+        String[] items = new String[] { "T1", "T2", "T3" };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, items);
 
         dynamicSpinner.setAdapter(adapter);
