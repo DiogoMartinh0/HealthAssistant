@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
+
 /**
  * Created by DiogoMartinho on 09/12/2017.
  */

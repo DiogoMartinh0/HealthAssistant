@@ -23,9 +23,10 @@ import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
 import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalAppointment;
 import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalPrescription;
 import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
+import pt.isec.gps1718.g34.healthassistant.Create.CreateAppointment;
 import pt.isec.gps1718.g34.healthassistant.Create.CreatePrescription;
-import pt.isec.gps1718.g34.healthassistant.Edit.EditAppointment;
-import pt.isec.gps1718.g34.healthassistant.Edit.EditPrescription;
+import pt.isec.gps1718.g34.healthassistant.View.ViewAppointment;
+import pt.isec.gps1718.g34.healthassistant.View.ViewPrescription;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -42,6 +43,21 @@ public class MainActivity extends AppCompatActivity{
         myFab = findViewById(R.id.fab_AdicionarEvento);
         setUpLists();
 
+        myFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tabLayout.getSelectedTabPosition() == 0) {
+                    Intent i1 = new Intent(MainActivity.this, CreatePrescription.class);
+                    startActivity(i1);
+                    //Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_SHORT).show();
+                } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    Intent i1 = new Intent(MainActivity.this, CreateAppointment.class);
+                    startActivity(i1);
+                    //Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Prescriptions"));
@@ -52,15 +68,16 @@ public class MainActivity extends AppCompatActivity{
         listView_Global.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long l) {
-                if (tabLayout.getSelectedTabPosition() == 0) {
-                    Intent i1 = new Intent(MainActivity.this, EditPrescription.class);
-                    i1.putExtra("IDPrescription", dm.GetPrescritionList().get(posicao).getID());
-                    startActivity(i1);
-                } else if (tabLayout.getSelectedTabPosition() == 1) {
-                    Intent i1 = new Intent(MainActivity.this, EditAppointment.class);
-                    i1.putExtra("IDAppointment", dm.GetAppointmentList().get(posicao).getID());
-                    startActivity(i1);
-                }
+            if (tabLayout.getSelectedTabPosition() == 0) {
+                Intent i1 = new Intent(MainActivity.this, ViewPrescription.class);
+                //i1.putExtra("IDPrescription", dm.GetPrescritionList().get(posicao).getID());
+                i1.putExtra("myPrescription", dm.GetPrescritionList().get(posicao));
+                startActivity(i1);
+            } else if (tabLayout.getSelectedTabPosition() == 1) {
+                Intent i1 = new Intent(MainActivity.this, ViewAppointment.class);
+                i1.putExtra("IDAppointment", dm.GetAppointmentList().get(posicao).getID());
+                startActivity(i1);
+            }
 
                 //Snackbar.make(view, "On item click", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
@@ -104,18 +121,6 @@ public class MainActivity extends AppCompatActivity{
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.i("HealthAssistant", "Click botão flutuante");
-                if (tabLayout.getSelectedTabPosition() == 0) {
-                    Intent i1 = new Intent(MainActivity.this, CreatePrescription.class);
-                    startActivity(i1);
-                    //Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_SHORT).show();
-                } else if (tabLayout.getSelectedTabPosition() == 1) {
-                    Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         startUpLists();
     }
@@ -177,7 +182,7 @@ public class MainActivity extends AppCompatActivity{
                 true,
                 true,
                 new Date(),
-                NotificationIntervalPrescription.T10
+                NotificationIntervalPrescription.T30
         ));
 
         dm.AddAppointment(new Appointment(

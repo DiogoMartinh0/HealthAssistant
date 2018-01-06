@@ -13,7 +13,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
-import pt.isec.gps1718.g34.healthassistant.Edit.EditPrescription;
 import pt.isec.gps1718.g34.healthassistant.R;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;

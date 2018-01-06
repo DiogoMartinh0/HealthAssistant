@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:hint="Paracetamol"
             android:textSize="20sp" />
 
@@ -39,14 +39,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:hint="600mg"
             android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatCheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:id="@+id/addPrescription_isAlarmChecked"
             android:textSize="20sp"
             android:text="Alarm"
@@ -55,38 +55,29 @@
         <android.support.v7.widget.AppCompatCheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:id="@+id/addPrescription_isNotificationChecked"
             android:text="Notification"
-            android:textSize="20sp"
-            />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Faltam aqui coisas" />
+            android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/addPrescription_textView_DateTimePicker"
-            android:layout_marginBottom="10dp"
-            android:text="DD/MM/YYYY HH:MM"
+            android:layout_marginBottom="15dp"
+            android:text="Select a starting date"
             android:textSize="20sp"
             android:layout_gravity="center_vertical"
             android:drawablePadding="5dp"
             android:singleLine="true"
-            android:drawableStart="@android:drawable/ic_menu_my_calendar"
-            />
+            android:drawableStart="@drawable/ic_calendar" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:id="@+id/addPrescription_dropDownList_TimeInterval"
-            android:background="@android:drawable/btn_dropdown"
-            />
+            android:background="@android:drawable/btn_dropdown" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,9 +92,8 @@
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:drawableLeft="@android:drawable/ic_delete"
-                android:text="Cancel"
-                />
+                android:drawableLeft="@drawable/ic_cancel"
+                android:text="Cancel" />
 
             <Button
                 android:id="@+id/addPrescription_btnOk"
@@ -111,7 +101,7 @@
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:drawableLeft="@android:drawable/ic_menu_save"
+                android:drawableLeft="@drawable/ic_done"
                 android:text="Ok" />
         </LinearLayout>
     </LinearLayout>

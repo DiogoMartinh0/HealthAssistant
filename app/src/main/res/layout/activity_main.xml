@@ -61,6 +61,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/fab_AdicionarEvento"
             android:src="@android:drawable/ic_input_add"
+            android:tint="#FFFFFF"
+            android:backgroundTint="@color/colorPrimary"
             android:scaleType="center"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
