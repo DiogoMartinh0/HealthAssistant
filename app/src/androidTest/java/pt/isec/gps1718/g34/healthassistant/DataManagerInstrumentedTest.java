@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
-import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalAppointment;
-import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalPrescription;
 import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
 
 import static org.junit.Assert.assertEquals;
@@ -50,7 +48,7 @@ public class DataManagerInstrumentedTest {
                 true,
                 true,
                 new Date(),
-                NotificationIntervalPrescription.T10
+                "Every 4 hours"
         ));
 
         assertEquals(dm.GetPrescritionList().size(), 1);
@@ -67,8 +65,7 @@ public class DataManagerInstrumentedTest {
                 "HUC",
                 "Tiago Silva",
                 "Levar exames realizados em Julho de 2017",
-                new Date(),
-                NotificationIntervalAppointment.T10
+                new Date()
         ));
 
         assertEquals(dm.GetAppointmentList().size(), 1);
@@ -86,7 +83,7 @@ public class DataManagerInstrumentedTest {
                 true,
                 true,
                 new Date(),
-                NotificationIntervalPrescription.T10
+                "Every 4 hours"
         );
 
         dm.AddPrescription(toAdd);
@@ -105,8 +102,7 @@ public class DataManagerInstrumentedTest {
                 "HUC",
                 "Tiago Silva",
                 "Levar exames realizados em Julho de 2017",
-                new Date(),
-                NotificationIntervalAppointment.T10
+                new Date()
         );
 
         dm.AddAppointment(toAdd);
@@ -126,7 +122,7 @@ public class DataManagerInstrumentedTest {
                 true,
                 true,
                 new Date(),
-                NotificationIntervalPrescription.T10
+                "Every 4 hours"
         );
 
         dm.AddPrescription(toAdd);
@@ -137,9 +133,6 @@ public class DataManagerInstrumentedTest {
             assertEquals(toAdd.getID(), t.getID());
             assertEquals(toAdd.getNome(), t.getNome());
             assertEquals(toAdd.getDosagem(), t.getDosagem());
-            assertEquals(toAdd.isAlarmActive(), t.isAlarmActive());
-            assertEquals(toAdd.isNotificationActive(), t.isNotificationActive());
-            assertEquals(toAdd.getdInicio(), t.getdInicio());
             assertEquals(toAdd.gettInterval(), t.gettInterval());
         }
     }
@@ -155,8 +148,7 @@ public class DataManagerInstrumentedTest {
                 "HUC",
                 "Tiago Silva",
                 "Levar exames realizados em Julho de 2017",
-                new Date(),
-                NotificationIntervalAppointment.T10
+                new Date()
         );
         dm.AddAppointment(toAdd
         );
@@ -171,7 +163,6 @@ public class DataManagerInstrumentedTest {
             assertEquals(toAdd.getLocalizacao(), t.getLocalizacao());
             assertEquals(toAdd.getInformacaoAdicional(), t.getInformacaoAdicional());
             assertEquals(toAdd.getdInicio(), t.getdInicio());
-            assertEquals(toAdd.gettAvisoAntecedencia(), t.gettAvisoAntecedencia());
         }
     }
 }
