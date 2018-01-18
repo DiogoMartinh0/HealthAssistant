@@ -9,15 +9,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="25sp"
-        android:text="tv_Appointment_Nome "
+        android:textSize="22sp"
+        android:text="tv_Appointment_Nome"
         android:id="@+id/tv_Appointment_Nome" />
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="12sp"
+        android:textSize="17sp"
         android:text="tv_Appointment_DataHora"
         android:id="@+id/tv_Appointment_DataHora" />
 
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="12sp"
+        android:textSize="17sp"
         android:text="tv_Appointment_Localizacao"
         android:id="@+id/tv_Appointment_Localizacao" />
 </LinearLayout>

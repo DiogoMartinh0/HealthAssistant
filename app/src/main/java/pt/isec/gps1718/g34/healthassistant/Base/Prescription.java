@@ -3,10 +3,9 @@ package pt.isec.gps1718.g34.healthassistant.Base;
 import java.io.Serializable;
 import java.util.Date;
 
-import pt.isec.gps1718.g34.healthassistant.Base.Event;
-import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalPrescription;
+public class Prescription implements Serializable {
 
-public class Prescription extends Event implements Serializable {
+    private int ID;
 
     private String Nome;
     private String Dosagem;
@@ -16,21 +15,24 @@ public class Prescription extends Event implements Serializable {
 
     private Date dInicio;
 
-    private NotificationIntervalPrescription tAvisoAntecedencia;
+    private String tInterval;
 
     public Prescription(int ID, String Nome, String Dosagem,
                         boolean isAlarmActive, boolean isNotificationActive,
-                        Date dInicio, NotificationIntervalPrescription tAvisoAntecedencia){
-
+                        Date dInicio, String tAvisoAntecedencia){
         this.Nome = Nome;
         this.Dosagem = Dosagem;
         this.isAlarmActive = isAlarmActive;
         this.isNotificationActive = isNotificationActive;
         this.dInicio = dInicio;
-        this.tAvisoAntecedencia = tAvisoAntecedencia;
+        this.tInterval = tAvisoAntecedencia;
     }
 
     public Prescription() {}
+
+    public int getID () { return ID; }
+
+    public void setID(int x) { this.ID = x; }
 
     public String getNome() {
         return Nome;
@@ -72,11 +74,11 @@ public class Prescription extends Event implements Serializable {
         this.dInicio = dInicio;
     }
 
-    public NotificationIntervalPrescription gettAvisoAntecedencia() {
-        return tAvisoAntecedencia;
+    public String gettInterval() {
+        return tInterval;
     }
 
-    public void settAvisoAntecedencia(NotificationIntervalPrescription tAvisoAntecedencia) {
-        this.tAvisoAntecedencia = tAvisoAntecedencia;
+    public void settInterval(String tInterval) {
+        this.tInterval = tInterval;
     }
 }

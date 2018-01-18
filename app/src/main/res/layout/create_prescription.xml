@@ -43,23 +43,6 @@
             android:hint="600mg"
             android:textSize="20sp" />
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:id="@+id/addPrescription_isAlarmChecked"
-            android:textSize="20sp"
-            android:text="Alarm"
-            />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:id="@+id/addPrescription_isNotificationChecked"
-            android:text="Notification"
-            android:textSize="20sp" />
-
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

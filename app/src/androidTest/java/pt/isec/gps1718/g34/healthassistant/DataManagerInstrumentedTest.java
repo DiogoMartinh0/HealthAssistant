@@ -140,7 +140,7 @@ public class DataManagerInstrumentedTest {
             assertEquals(toAdd.isAlarmActive(), t.isAlarmActive());
             assertEquals(toAdd.isNotificationActive(), t.isNotificationActive());
             assertEquals(toAdd.getdInicio(), t.getdInicio());
-            assertEquals(toAdd.gettAvisoAntecedencia(), t.gettAvisoAntecedencia());
+            assertEquals(toAdd.gettInterval(), t.gettInterval());
         }
     }
 

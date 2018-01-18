@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:text="tv_Prescription_Nome "
         android:id="@+id/tv_Prescription_Nome" />
 
@@ -17,16 +17,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="12sp"
-        android:text="tv_Prescription_DataHora"
-        android:id="@+id/tv_Prescription_DataHora" />
+        android:textSize="17sp"
+        android:text="tv_Prescription_Dosagem"
+        android:id="@+id/tv_Prescription_Dosagem" />
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="12sp"
-        android:text="tv_Prescription_Localizacao"
-        android:id="@+id/tv_Prescription_Localizacao" />
+        android:textSize="17sp"
+        android:text="tv_Prescription_DataHora"
+        android:id="@+id/tv_Prescription_DataHora" />
 </LinearLayout>
 

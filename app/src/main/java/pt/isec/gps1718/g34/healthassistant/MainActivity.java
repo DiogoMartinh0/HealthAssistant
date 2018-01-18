@@ -15,13 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import pt.isec.gps1718.g34.healthassistant.Adapter.AppointmentAdapter;
 import pt.isec.gps1718.g34.healthassistant.Adapter.PrescriptionAdapter;
 import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
-import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalAppointment;
-import pt.isec.gps1718.g34.healthassistant.Base.NotificationIntervalPrescription;
 import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
 import pt.isec.gps1718.g34.healthassistant.Create.CreateAppointment;
 import pt.isec.gps1718.g34.healthassistant.Create.CreatePrescription;
@@ -38,20 +37,22 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dm.SetContext(this);
+        dm.LoadLists();
 
-        dm = new DataManager(this);
         myFab = findViewById(R.id.fab_AdicionarEvento);
-        setUpLists();
 
         myFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     Intent i1 = new Intent(MainActivity.this, CreatePrescription.class);
+                    i1.putExtra("DataManager", dm);
                     startActivity(i1);
                     //Toast.makeText(getApplicationContext(), "Criar Prescription", Toast.LENGTH_SHORT).show();
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     Intent i1 = new Intent(MainActivity.this, CreateAppointment.class);
+                    i1.putExtra("DataManager", dm);
                     startActivity(i1);
                     //Toast.makeText(getApplicationContext(), "Criar Appointment", Toast.LENGTH_SHORT).show();
                 }
@@ -68,17 +69,18 @@ public class MainActivity extends AppCompatActivity{
         listView_Global.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long l) {
-            if (tabLayout.getSelectedTabPosition() == 0) {
-                Intent i1 = new Intent(MainActivity.this, ViewPrescription.class);
-                //i1.putExtra("IDPrescription", dm.GetPrescritionList().get(posicao).getID());
-                i1.putExtra("myPrescription", dm.GetPrescritionList().get(posicao));
-                startActivity(i1);
-            } else if (tabLayout.getSelectedTabPosition() == 1) {
-                Intent i1 = new Intent(MainActivity.this, ViewAppointment.class);
-                i1.putExtra("IDAppointment", dm.GetAppointmentList().get(posicao).getID());
-                startActivity(i1);
-            }
-
+                if (tabLayout.getSelectedTabPosition() == 0) {
+                    Intent i1 = new Intent(MainActivity.this, ViewPrescription.class);
+                    //i1.putExtra("IDPrescription", dm.GetPrescritionList().get(posicao).getID());
+                    i1.putExtra("myPrescription", dm.GetPrescritionList().get(posicao));
+                    i1.putExtra("DataManager", dm);
+                    startActivity(i1);
+                } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    Intent i1 = new Intent(MainActivity.this, ViewAppointment.class);
+                    i1.putExtra("myAppointment", dm.GetAppointmentList().get(posicao));
+                    i1.putExtra("DataManager", dm);
+                    startActivity(i1);
+                }
                 //Snackbar.make(view, "On item click", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
@@ -87,31 +89,7 @@ public class MainActivity extends AppCompatActivity{
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ListView listView_Global = findViewById(R.id.listView_Global);
-                TextView textView_Global = findViewById(R.id.textView_Global);
-
-                listView_Global.setVisibility(View.INVISIBLE); // Esconder a lista
-                textView_Global.setVisibility(View.INVISIBLE); // Esconder texto de lista vazia
-
-                if (tab.getPosition() == 0){
-                    listView_Global.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
-
-                    if (dm.GetPrescritionList().size() == 0){
-                        textView_Global.setText(R.string.there_are_no_items_on_the_prescription_list);
-                        textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
-                    }else{
-                        listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
-                    }
-                }else if (tab.getPosition() == 1){
-                    listView_Global.setAdapter(new AppointmentAdapter(getApplicationContext(), dm.GetAppointmentList()));
-
-                    if (dm.GetAppointmentList().size() == 0){
-                        textView_Global.setText(R.string.there_are_no_items_on_the_appointment_list);
-                        textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
-                    }else {
-                        listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
-                    }
-                }
+                reloadListViews();
             }
 
             @Override
@@ -122,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
         });
 
 
-        startUpLists();
+        //startUpLists();
     }
 
     @Override
@@ -155,6 +133,35 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        reloadListViews();
+    }
+
+    private void reloadListViews(){
+        ListView listView_Global = findViewById(R.id.listView_Global);
+        TextView textView_Global = findViewById(R.id.textView_Global);
+
+        listView_Global.setVisibility(View.INVISIBLE); // Esconder a lista
+        textView_Global.setVisibility(View.INVISIBLE); // Esconder texto de lista vazia
+
+        if (tabLayout.getSelectedTabPosition() == 0){
+            listView_Global.setAdapter(new PrescriptionAdapter(getApplicationContext(), dm.GetPrescritionList()));
+
+            if (dm.GetPrescritionList().size() == 0){
+                textView_Global.setText(R.string.there_are_no_items_on_the_prescription_list);
+                textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+            }else{
+                listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
+            }
+        }else if (tabLayout.getSelectedTabPosition() == 1){
+            listView_Global.setAdapter(new AppointmentAdapter(getApplicationContext(), dm.GetAppointmentList()));
+
+            if (dm.GetAppointmentList().size() == 0){
+                textView_Global.setText(R.string.there_are_no_items_on_the_appointment_list);
+                textView_Global.setVisibility(View.VISIBLE); // Mostrar texto da lista vazia
+            }else {
+                listView_Global.setVisibility(View.VISIBLE); // Mostrar a lista
+            }
+        }
     }
 
     private void startUpLists(){
@@ -182,7 +189,7 @@ public class MainActivity extends AppCompatActivity{
                 true,
                 true,
                 new Date(),
-                NotificationIntervalPrescription.T30
+                "Every 12 hours"
         ));
 
         dm.AddAppointment(new Appointment(
@@ -191,8 +198,7 @@ public class MainActivity extends AppCompatActivity{
                 "HUC",
                 "Tiago Silva",
                 "Levar exames realizados em Julho de 2017",
-                new Date(),
-                NotificationIntervalAppointment.T10
+                new Date()
         ));
     }
 }

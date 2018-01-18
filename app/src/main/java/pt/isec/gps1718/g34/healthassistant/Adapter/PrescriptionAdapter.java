@@ -10,16 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
 import pt.isec.gps1718.g34.healthassistant.R;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
-/**
- * Created by DiogoMartinho on 09/12/2017.
- */
 
 public class PrescriptionAdapter extends BaseAdapter {
     Context context;
@@ -50,34 +47,31 @@ public class PrescriptionAdapter extends BaseAdapter {
         return position;
     }
 
-    public class Holder
-    {
-        TextView tv;
-    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder = new Holder();
-        final View rowView;
+        final View rowView = inflater.inflate(R.layout.layout_prescription, null);
 
-        rowView = inflater.inflate(R.layout.layout_prescription, null);
-        holder.tv = rowView.findViewById(R.id.tv_Prescription_Nome);
-        holder.tv.setText(listaPrescriptions.get(position).getNome());
+        Prescription prescription = listaPrescriptions.get(position);
+        if (prescription == null)
+            return rowView;
 
-        /*
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                //Snackbar.make(rowView, "You Clicked " + listaPrescriptions.get(position).getID(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Intent i1 = new Intent(context.getApplicationContext(), EditPrescription.class);
-                i1.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                i1.putExtra("IDPrescription", listaPrescriptions.get(position).getID());
-                context.startActivity(i1);
+        // tv_Prescription_Nome
+        TextView tv_Nome = rowView.findViewById(R.id.tv_Prescription_Nome);
+        tv_Nome.setText(prescription.getNome());
 
-                //v.getContext().startActivity(i1);
-            }
-        });*/
+        // tv_Prescription_Dosagem
+        TextView tv_Dosagem = rowView.findViewById(R.id.tv_Prescription_Dosagem);
+        tv_Dosagem.setText(prescription.getDosagem());
+
+        // tv_Prescription_DataHora
+        TextView tv_DataHora = rowView.findViewById(R.id.tv_Prescription_DataHora);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateFormatada = sdf.format(prescription.getdInicio());
+
+        tv_DataHora.setText(dateFormatada + " - " + prescription.gettInterval());
         return rowView;
     }
 }

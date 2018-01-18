@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-public class Appointment extends Event implements Serializable {
+public class Appointment implements Serializable {
+    private int ID;
     private String Nome;
 
     private Date dInicio;
-
-    private NotificationIntervalAppointment tAvisoAntecedencia;
 
     private String Localizacao;
     private String Medico;
@@ -17,15 +16,18 @@ public class Appointment extends Event implements Serializable {
 
     public Appointment(int ID, String Nome,
                         String Localizacao, String Medico, String InformacaoAdicional,
-                        Date dInicio, NotificationIntervalAppointment tAvisoAntecedencia){
+                        Date dInicio){
 
         this.Nome = Nome;
         this.dInicio = dInicio;
-        this.tAvisoAntecedencia = tAvisoAntecedencia;
         this.Localizacao = Localizacao;
         this.Medico = Medico;
         this.InformacaoAdicional = InformacaoAdicional;
     }
+
+    public int getID () { return ID; }
+
+    public void setID(int x) { this.ID = x; }
 
 
     public String getNome() {
@@ -42,14 +44,6 @@ public class Appointment extends Event implements Serializable {
 
     public void setdInicio(Date dInicio) {
         this.dInicio = dInicio;
-    }
-
-    public NotificationIntervalAppointment gettAvisoAntecedencia() {
-        return tAvisoAntecedencia;
-    }
-
-    public void settAvisoAntecedencia(NotificationIntervalAppointment tAvisoAntecedencia) {
-        this.tAvisoAntecedencia = tAvisoAntecedencia;
     }
 
     public String getLocalizacao() {

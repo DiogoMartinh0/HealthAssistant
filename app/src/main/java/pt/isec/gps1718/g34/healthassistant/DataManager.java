@@ -2,75 +2,140 @@ package pt.isec.gps1718.g34.healthassistant;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
 import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
 
-public class DataManager{
+public class DataManager implements Serializable {
+    public static transient Context context;
+    public static String PRESCRIPTIONS_FILENAME = "PrescriptionsFile";
+    public static String APPOINTMENTS_FILENAME = "AppointmentsFile";
+    public static Integer contadorPrescriptions = 0;
+    public static Integer contadorAppointments = 0;
 
-    private Context context;
-    private String PRESCRIPTIONS_FILENAME = "PrescriptionsFile";
-    private String APPOINTMENTS_FILENAME = "AppointmentsFile";
-    private Integer contadorPrescriptions = 0;
-    private Integer contadorAppointments = 0;
-
-    ArrayList<Prescription> listPrescriptions = null;
-    ArrayList<Appointment> listAppointments = null;
+    public static ArrayList<Prescription> listPrescriptions = null;
+    public static ArrayList<Appointment> listAppointments = null;
 
 
     public DataManager(Context ctx){
         this.context = ctx;
         listPrescriptions = new ArrayList<>();
         listAppointments = new ArrayList<>();
+
+        listPrescriptions = GetPrescritionList();
+        listAppointments = GetAppointmentList();
     }
 
-    private int getIDForNewEvent(){
-        return  contadorPrescriptions + contadorAppointments + 1;
+    public static void SetContext(Context ctx){
+        context = ctx;
     }
 
-    public ArrayList<Prescription> GetPrescritionList(){
+    private static int getIDForNewEvent(){
+        return contadorPrescriptions + contadorAppointments + 1;
+    }
+
+    public static void LoadLists(){
+        GetPrescritionList();
+        GetAppointmentList();
+    }
+
+    public static ArrayList<Prescription> GetPrescritionList(){
         if (listPrescriptions != null) {
             return listPrescriptions;
         } else {
-            listPrescriptions = getPrescriptionsFromFile();
+            listPrescriptions = new ArrayList<>();
+            getPrescriptionsFromFile();
+
             contadorPrescriptions = listPrescriptions.size();
             return listPrescriptions;
         }
     }
 
-    public ArrayList<Appointment> GetAppointmentList(){
+    public static ArrayList<Appointment> GetAppointmentList(){
         if (listAppointments != null) {
             return listAppointments;
-        } else{
-            listAppointments = getAppointmentsFromFile();
-            contadorPrescriptions = listAppointments.size();
+        } else {
+            listAppointments = new ArrayList<>();
+            getPrescriptionsFromFile();
+
+            contadorAppointments = listAppointments.size();
             return listAppointments;
         }
     }
 
-    public void AddPrescription(Prescription newPrescription){
+    public static void AddPrescription(Prescription newPrescription){
         newPrescription.setID(getIDForNewEvent());
         contadorPrescriptions++;
         listPrescriptions.add(newPrescription);
     }
 
-    public void AddAppointment(Appointment newAppointment){
+    public static void AddAppointment(Appointment newAppointment){
         newAppointment.setID(getIDForNewEvent());
         contadorAppointments++;
         listAppointments.add(newAppointment);
     }
 
-    public void RemovePrescription(final Prescription targetPrescription){
+    public static void EditPrescription(int ID, Prescription newPrescription){
+        for (int i = 0; i < listPrescriptions.size(); i++){
+            Prescription toEdit = listPrescriptions.get(i);
+            if (toEdit.getID() == ID) {
+                toEdit.setNome(newPrescription.getNome());
+                toEdit.setDosagem(newPrescription.getDosagem());
+                toEdit.setdInicio(newPrescription.getdInicio());
+                toEdit.settInterval(newPrescription.gettInterval());
+                break;
+            }
+        }
+    }
+
+    public static void EditAppointment(int ID, Appointment newAppointment){
+        for (int i = 0; i < listAppointments.size(); i++){
+            Appointment toEdit = listAppointments.get(i);
+            if (toEdit.getID() == ID) {
+                toEdit.setNome(newAppointment.getNome());
+                toEdit.setLocalizacao(newAppointment.getLocalizacao());
+                toEdit.setMedico(newAppointment.getMedico());
+                toEdit.setInformacaoAdicional(newAppointment.getInformacaoAdicional());
+                toEdit.setdInicio(newAppointment.getdInicio());
+                break;
+            }
+        }
+    }
+
+    public static void DeletePrescription(int ID){
+        for (int i = 0; i < listPrescriptions.size(); i++){
+            Prescription toDelete = listPrescriptions.get(i);
+            if (toDelete.getID() == ID) {
+                listPrescriptions.remove(i);
+                break;
+            }
+        }
+    }
+
+    public static void DeleteAppointment(int ID){
+        for (int i = 0; i < listAppointments.size(); i++){
+            Appointment toDelete = listAppointments.get(i);
+            if (toDelete.getID() == ID) {
+                listAppointments.remove(i);
+                break;
+            }
+        }
+    }
+
+    public static void RemovePrescription(final Prescription targetPrescription){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             listPrescriptions.removeIf(new Predicate<Prescription>() {
                 @Override
@@ -81,7 +146,7 @@ public class DataManager{
         }
     }
 
-    public void RemoveAppointment(final Appointment targetAppointment){
+    public static void RemoveAppointment(final Appointment targetAppointment){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             listAppointments.removeIf(new Predicate<Appointment>() {
                 @Override
@@ -92,12 +157,16 @@ public class DataManager{
         }
     }
 
-    private ArrayList<Prescription> getPrescriptionsFromFile(){
+
+
+    private static ArrayList<Prescription> getPrescriptionsFromFile(){
+        listPrescriptions.clear();
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = context.openFileInput(PRESCRIPTIONS_FILENAME);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e("DataManager", "Prescription File not found!");
+            return null;
         }
 
         ObjectInputStream objectInputStream = null;
@@ -114,21 +183,21 @@ public class DataManager{
             }
         } catch (EOFException exc) {
             // não há mais objectos para ler
-        } catch (IOException exc) {
+        } catch (IOException | ClassNotFoundException exc) {
             exc.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         return listPrescriptions;
     }
 
-    private ArrayList<Appointment> getAppointmentsFromFile(){
+    private static ArrayList<Appointment> getAppointmentsFromFile(){
+        listAppointments.clear();
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = context.openFileInput(APPOINTMENTS_FILENAME);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e("DataManager", "Prescription File not found!");
+            return null;
         }
 
         ObjectInputStream objectInputStream = null;
@@ -145,20 +214,30 @@ public class DataManager{
             }
         } catch (EOFException exc)  {
             // não há mais objectos para ler
-        } catch (IOException exc) {
+        } catch (IOException | ClassNotFoundException exc) {
             exc.printStackTrace(); // for example
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         return listAppointments;
     }
 
-    public void savePrescritionsToFile(){
-        FileOutputStream streamFicheiro;
+    public static void savePrescritionsToFile(){
+        if (listPrescriptions.size() == 0){
+            try{
+                String dir = context.getFilesDir().getAbsolutePath();
+                File filePrescriptions = new File(dir, PRESCRIPTIONS_FILENAME);
+                filePrescriptions.delete();
+            }catch(Exception e){
 
+            }finally {
+                return;
+            }
+        }
+
+        FileOutputStream streamFicheiro;
         try {
             streamFicheiro = context.openFileOutput(PRESCRIPTIONS_FILENAME, Context.MODE_PRIVATE);
+
             ObjectOutputStream oos = new ObjectOutputStream(streamFicheiro);
 
             for (Prescription t : listPrescriptions)
@@ -170,7 +249,19 @@ public class DataManager{
         }
     }
 
-    public void saveAppointmentsToFile(){
+    public static void saveAppointmentsToFile(){
+        if (listPrescriptions.size() == 0){
+            try{
+                String dir = context.getFilesDir().getAbsolutePath();
+                File filePrescriptions = new File(dir, PRESCRIPTIONS_FILENAME);
+                filePrescriptions.delete();
+            }catch(Exception e){
+
+            }finally {
+                return;
+            }
+        }
+
         FileOutputStream streamFicheiro;
 
         try {

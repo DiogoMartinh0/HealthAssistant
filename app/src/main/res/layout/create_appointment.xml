@@ -27,69 +27,54 @@
         android:padding="7dp">
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/addPrescription_editText_Nome"
+            android:id="@+id/addAppointment_editText_Nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:layout_marginBottom="10dp"
-            android:hint="Paracetamol"
+            android:hint="Orthopedics and Traumatology"
             android:textSize="20sp" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/addPrescription_editText_Dosagem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_marginBottom="10dp"
-            android:hint="600mg"
-            android:textSize="20sp" />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/addPrescription_isAlarmChecked"
-            android:textSize="20dp"
-            android:text="Alarm"
-            />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/addPrescription_isNotificationChecked"
-            android:text="Notification"
-            android:textSize="20dp"
-            />
-
-
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Faltam aqui coisas" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/addPrescription_textView_DateTimePicker"
+            android:id="@+id/addAppointment_textView_DateTimePicker"
             android:layout_marginBottom="10dp"
             android:text="DD/MM/YYYY HH:MM"
             android:textSize="20sp"
             android:layout_gravity="center_vertical"
             android:drawablePadding="5dp"
             android:singleLine="true"
-            android:drawableStart="@android:drawable/ic_menu_my_calendar"
-            />
+            android:drawableStart="@android:drawable/ic_menu_my_calendar" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/addAppointment_editText_Localizacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:layout_marginBottom="10dp"
-            android:id="@+id/addPrescription_dropDownList_TimeInterval"
-            android:background="@android:drawable/btn_dropdown"
-            ></android.support.v7.widget.AppCompatSpinner>
+            android:hint="Location"
+            android:textSize="20sp" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/addAppointment_editText_Medico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_marginBottom="10dp"
+            android:hint="Doctor"
+            android:textSize="20sp" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/addAppointment_editText_AditionalInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:minLines="2"
+            android:lines="4"
+            android:layout_marginBottom="10dp"
+            android:hint="Aditional information"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,22 +84,21 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/addPrescription_btnCancel"
+                android:id="@+id/addAppointment_btnCancel"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:drawableLeft="@android:drawable/ic_delete"
-                android:text="Cancel"
-                />
+                android:drawableLeft="@drawable/ic_cancel"
+                android:text="Cancel" />
 
             <Button
-                android:id="@+id/addPrescription_btnOk"
+                android:id="@+id/addAppointment_btnOk"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:drawableLeft="@android:drawable/ic_menu_save"
+                android:drawableLeft="@drawable/ic_done"
                 android:text="Ok" />
         </LinearLayout>
     </LinearLayout>

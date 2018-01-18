@@ -8,9 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import pt.isec.gps1718.g34.healthassistant.Base.Appointment;
+import pt.isec.gps1718.g34.healthassistant.Base.Prescription;
 import pt.isec.gps1718.g34.healthassistant.R;
 
 /**
@@ -46,27 +48,26 @@ public class AppointmentAdapter extends BaseAdapter {
         return position;
     }
 
-    public class Holder
-    {
-        TextView tv;
-    }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder = new Holder();
-        View rowView;
+        final View rowView = inflater.inflate(R.layout.layout_appointment, null);
 
-        rowView = inflater.inflate(R.layout.layout_prescription, null);
-        holder.tv = (TextView) rowView.findViewById(R.id.tv_Prescription_Nome);
-        holder.tv.setText(listaAppointments.get(position).getNome());
+        Appointment appointment = listaAppointments.get(position);
+        if (appointment == null)
+            return rowView;
 
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked " + listaAppointments.get(position).getID(), Toast.LENGTH_LONG).show();
-            }
-        });
+        TextView tv_Nome = rowView.findViewById(R.id.tv_Appointment_Nome);
+        tv_Nome.setText(appointment.getNome());
+
+        TextView tv_DataHora = rowView.findViewById(R.id.tv_Appointment_DataHora);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateFormatada = sdf.format(appointment.getdInicio());
+        tv_DataHora.setText(dateFormatada);
+
+        TextView tv_Localizacao = rowView.findViewById(R.id.tv_Appointment_Localizacao);
+        tv_Localizacao.setText(appointment.getLocalizacao());
+
         return rowView;
     }
 }
